@@ -3,6 +3,7 @@
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -22,6 +23,10 @@ public class GUIAdministrador {
 		guiFrame.setSize(300,250);
 		//This will center the JFrame in the middle of the screen
 		guiFrame.setLocationRelativeTo(null);
+		JPanel imagem = new JPanel();
+		JLabel img = new JLabel(new ImageIcon("resources/sql-2.png"));
+		imagem.add(img);
+		imagem.setVisible(true);
 		//Options for the JComboBox
 		String[] tabelaAConsultar = {"investigador", "medições", "variáveis"
 				,"cultura", "sistema", "variáveis medidas", "medições luminosidade", "medições temperatura"};
@@ -48,6 +53,7 @@ public class GUIAdministrador {
 		});
 		guiFrame.add(comboPanel, BorderLayout.NORTH);
 		guiFrame.add(listPanel, BorderLayout.CENTER);
+		guiFrame.add(imagem, BorderLayout.CENTER);
 		guiFrame.add(vegFruitBut,BorderLayout.SOUTH);
 		//make sure the JFrame is visible
 		guiFrame.setVisible(true);
