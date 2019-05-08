@@ -17,10 +17,10 @@ public class Connections {
 
 	public static void main(String[] args) {
 		Connections c = new Connections();
-		c.login("root", "chocolate");
-		//		c.selectVariaveis();
-		//		c.createVariavel("VariavelTeste");
-		c.deleteVariavel(12);
+		c.login("ele", "ele");
+		c.selectVariaveis();
+		//c.createVariavel("VariavelTeste");
+//		c.deleteVariavel(12);
 	}
 
 
