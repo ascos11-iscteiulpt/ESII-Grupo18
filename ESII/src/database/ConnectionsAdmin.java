@@ -1,5 +1,6 @@
 package database;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,16 +12,20 @@ import javax.sql.DataSource;
 import com.mongodb.DB;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
-public class Connections {
+public class ConnectionsAdmin {
 
 	Connection conn = null;
 
 	public static void main(String[] args) {
-		Connections c = new Connections();
-		c.login("ele", "ele");
-		c.selectVariaveis();
+		ConnectionsAdmin c = new ConnectionsAdmin();
+		c.login("root", "chocolate");
+//		c.selectVariaveis();
 		//c.createVariavel("VariavelTeste");
 //		c.deleteVariavel(12);
+//		c.selectUtilizadores();
+//		c.deleteUtilizador(7);
+//		c.createAdministrador("ccc","ccc");
+		c.createInvestigador("inve", "nome", "pass");
 	}
 
 
@@ -87,6 +92,68 @@ public class Connections {
 			preparedStatement.executeUpdate();
 
 			System.out.println("Foi removida a variável com o id "+id);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void selectUtilizadores() { //Está a devolver só os investigadores, para já
+		Statement stmt;
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM investigador");
+			while (rs.next()) {
+				System.out.println("Nome de investigador : " + rs.getString("NomeInvestigador"));
+			}
+		} catch (SQLException e) {
+			//			e.printStackTrace();
+		}
+	}
+	
+	public void deleteUtilizador(int id) { // Investigadores só, para já
+		Statement stmt;
+		try {
+
+			PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM investigador WHERE IDInvestigador=?");
+			preparedStatement.setInt(1, id);
+			preparedStatement.executeUpdate();
+
+			System.out.println("Foi removida o investigador com o id "+id);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void createAdministrador(String username, String pass) { // Investigadores só, para já
+		Statement stmt;
+		try {
+			
+			CallableStatement cs = conn.prepareCall("call dba.create_administrador(?, ?)");
+			cs.setString(1, username);
+			cs.setString(2, pass);
+			cs.executeUpdate();
+
+			System.out.println("Foi criado o administrador com o nome "+username);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void createInvestigador(String nickname, String nomeInvestigador, String pass) { // Investigadores só, para já
+		Statement stmt;
+		try {
+			
+			CallableStatement cs = conn.prepareCall("call dba.create_investigador(?, ?, ?, ?)");
+			cs.setString(1, nickname);
+			cs.setString(2, nomeInvestigador);
+			cs.setString(3, pass);
+			cs.setString(4, "investigador");
+			cs.executeUpdate();
+
+			System.out.println("Foi criado o investigador com o nome "+nomeInvestigador);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
