@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.sql.DataSource;
+import javax.swing.JOptionPane;
 
 import com.mongodb.DB;
 import com.mysql.cj.jdbc.MysqlDataSource;
@@ -16,34 +17,54 @@ public class ConnectionsAdmin {
 
 	Connection conn = null;
 
-	public static void main(String[] args) {
-		ConnectionsAdmin c = new ConnectionsAdmin();
-		c.login("root", "chocolate");
-//		c.selectVariaveis();
-		//c.createVariavel("VariavelTeste");
-//		c.deleteVariavel(12);
-//		c.selectInvestigadores();
-		c.selectAdministradores();
-		c.deleteAdministrador(2);
-//		c.deleteUtilizador(7);
-//		c.createAdministrador("andreAdmin","pass");
-//		c.createInvestigador("inve", "nome", "pass");
-	}
+	//	public static void main(String[] args) {
+	//		ConnectionsAdmin c = new ConnectionsAdmin();
+	//		c.login("root", "chocolate");
+	//		c.selectVariaveis();
+	//		c.createVariavel("VariavelTeste");
+	//		c.deleteVariavel(12);
+	//		c.selectInvestigadores();
+	//		c.selectAdministradores();
+	//		c.deleteAdministrador(2);
+	//		c.deleteUtilizador(7);
+	//		c.createAdministrador("andreAdmin","pass");
+	//		c.createInvestigador("inve", "nome", "pass");
+	//	}
 
 
-	public void login(String username, String password) {
+	public boolean login(String username, String password) {
 		try {
-			conn = getMysqlDataSource(username, password).getConnection();
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT version()");
 
-			if (rs.next()) {
-				System.out.println("Database Version : " + rs.getString(1));
+			Connection connAux = getMysqlDataSource("root", "chocolate").getConnection();
+
+			PreparedStatement preparedStatement = connAux.prepareStatement("SELECT * FROM administrador WHERE NomeAdministrador=? AND Pass=?");
+			preparedStatement.setString(1, username);
+			preparedStatement.setString(2, password);
+			preparedStatement.execute();
+			ResultSet rs1 = preparedStatement.getResultSet();
+
+			if (rs1.next()) {
+				System.out.println("Login done!");
+
+				conn = getMysqlDataSource(username, password).getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT version()");
+
+				//Só como teste de login
+				if (rs.next()) {
+					System.out.println("Database Version : " + rs.getString(1));
+				}
+				 return true;
+				//Aqui tem que enviar um sinal à GUI para mudar de frame
+				
+			} else {
+				JOptionPane.showMessageDialog(null, "Dados de login incorretos.", "Erro", JOptionPane.ERROR_MESSAGE);
+				return false;
 			}
-
 		} catch (SQLException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 		};
+		return false;
 	}
 
 	public void selectVariaveis() {
@@ -94,12 +115,12 @@ public class ConnectionsAdmin {
 			preparedStatement.executeUpdate();
 
 			System.out.println("Foi removida a variável com o id "+id);
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void selectInvestigadores() { 
 		Statement stmt;
 		try {
@@ -112,7 +133,7 @@ public class ConnectionsAdmin {
 			//			e.printStackTrace();
 		}
 	}
-	
+
 	public void selectAdministradores() { 
 		Statement stmt;
 		try {
@@ -122,10 +143,10 @@ public class ConnectionsAdmin {
 				System.out.println("ID: "+rs.getInt("IDAdministrador")+" Nome de administrador : " + rs.getString("NomeAdministrador"));
 			}
 		} catch (SQLException e) {
-//						e.printStackTrace();
+			//						e.printStackTrace();
 		}
 	}
-	
+
 	public void deleteInvestigador(int id) { 
 		Statement stmt;
 		try {
@@ -135,12 +156,12 @@ public class ConnectionsAdmin {
 			preparedStatement.executeUpdate();
 
 			System.out.println("Foi removida o investigador com o id "+id);
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void deleteAdministrador(int id) { 
 		Statement stmt;
 		try {
@@ -150,32 +171,32 @@ public class ConnectionsAdmin {
 			preparedStatement.executeUpdate();
 
 			System.out.println("Foi removida o administrador com o id "+id);
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void createAdministrador(String username, String pass) { // Investigadores só, para já
 		Statement stmt;
 		try {
-			
+
 			CallableStatement cs = conn.prepareCall("call dba.create_administrador(?, ?)");
 			cs.setString(1, username);
 			cs.setString(2, pass);
 			cs.executeUpdate();
 
 			System.out.println("Foi criado o administrador com o nome "+username);
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void createInvestigador(String nickname, String nomeInvestigador, String pass) { // Investigadores só, para já
 		Statement stmt;
 		try {
-			
+
 			CallableStatement cs = conn.prepareCall("call dba.create_investigador(?, ?, ?, ?)");
 			cs.setString(1, nickname);
 			cs.setString(2, nomeInvestigador);
@@ -184,7 +205,7 @@ public class ConnectionsAdmin {
 			cs.executeUpdate();
 
 			System.out.println("Foi criado o investigador com o nome "+nomeInvestigador);
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

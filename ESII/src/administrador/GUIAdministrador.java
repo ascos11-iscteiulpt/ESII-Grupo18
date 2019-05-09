@@ -13,9 +13,15 @@ import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.BoxLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
+
+import database.ConnectionsAdmin;
+
 import javax.swing.JButton;
 
 public class GUIAdministrador extends JFrame {
@@ -23,11 +29,17 @@ public class GUIAdministrador extends JFrame {
 	private JPanel contentPane;
 	private JTextField usernameField;
 	private JTextField passwordField;
+	private ConnectionsAdmin connectAdmin;
 
 	/**
 	 * Create the frame.
 	 */
-	public GUIAdministrador() {
+	public GUIAdministrador(ConnectionsAdmin connect) {
+		this.connectAdmin = connect;
+		openLoginGUI();
+	}
+	
+	public void openLoginGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -60,8 +72,24 @@ public class GUIAdministrador extends JFrame {
 		passwordPanel.add(passwordField);
 		passwordField.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Login");
-		panel.add(btnNewButton);
+		JButton loginButton = new JButton("Login");
+		panel.add(loginButton);
+		
+		loginButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Boolean connected = connectAdmin.login(usernameField.getText(), passwordField.getText());
+				if(connected) {
+					//chamar novo método :c
+					openAdminGUI();
+				}
+			}
+		});	
+	}
+	
+	public void openAdminGUI() {
+		
 	}
 
 }

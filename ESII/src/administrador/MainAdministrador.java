@@ -10,7 +10,7 @@ public class MainAdministrador {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GUIAdministrador gui = new GUIAdministrador();
+					GUIAdministrador gui = new GUIAdministrador(new ConnectionsAdmin());
 					gui.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
