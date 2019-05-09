@@ -22,10 +22,12 @@ public class ConnectionsAdmin {
 //		c.selectVariaveis();
 		//c.createVariavel("VariavelTeste");
 //		c.deleteVariavel(12);
-//		c.selectUtilizadores();
+//		c.selectInvestigadores();
+		c.selectAdministradores();
+		c.deleteAdministrador(2);
 //		c.deleteUtilizador(7);
-//		c.createAdministrador("ccc","ccc");
-		c.createInvestigador("inve", "nome", "pass");
+//		c.createAdministrador("andreAdmin","pass");
+//		c.createInvestigador("inve", "nome", "pass");
 	}
 
 
@@ -98,20 +100,33 @@ public class ConnectionsAdmin {
 		}
 	}
 	
-	public void selectUtilizadores() { //Está a devolver só os investigadores, para já
+	public void selectInvestigadores() { 
 		Statement stmt;
 		try {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM investigador");
 			while (rs.next()) {
-				System.out.println("Nome de investigador : " + rs.getString("NomeInvestigador"));
+				System.out.println("ID: "+rs.getInt("IDInvestigador")+" Nome de investigador : " + rs.getString("NomeInvestigador"));
 			}
 		} catch (SQLException e) {
 			//			e.printStackTrace();
 		}
 	}
 	
-	public void deleteUtilizador(int id) { // Investigadores só, para já
+	public void selectAdministradores() { 
+		Statement stmt;
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM administrador");
+			while (rs.next()) {
+				System.out.println("ID: "+rs.getInt("IDAdministrador")+" Nome de administrador : " + rs.getString("NomeAdministrador"));
+			}
+		} catch (SQLException e) {
+//						e.printStackTrace();
+		}
+	}
+	
+	public void deleteInvestigador(int id) { 
 		Statement stmt;
 		try {
 
@@ -120,6 +135,21 @@ public class ConnectionsAdmin {
 			preparedStatement.executeUpdate();
 
 			System.out.println("Foi removida o investigador com o id "+id);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteAdministrador(int id) { 
+		Statement stmt;
+		try {
+
+			PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM administrador WHERE IDAdministrador=?");
+			preparedStatement.setInt(1, id);
+			preparedStatement.executeUpdate();
+
+			System.out.println("Foi removida o administrador com o id "+id);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
