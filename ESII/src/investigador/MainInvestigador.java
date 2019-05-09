@@ -1,6 +1,6 @@
 package investigador;
 
-public class MainAdministrador {
+public class MainInvestigador {
 	
 	public static void main(String[] args) {
 		
