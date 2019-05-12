@@ -15,7 +15,7 @@ import com.mysql.cj.jdbc.MysqlDataSource;
 
 public class ConnectionsAdmin {
 
-	Connection conn = null;
+	static Connection conn = null;
 
 	//	public static void main(String[] args) {
 	//		ConnectionsAdmin c = new ConnectionsAdmin();
@@ -100,13 +100,14 @@ public class ConnectionsAdmin {
 			preparedStatement.executeUpdate();
 
 			System.out.println("Foi criada a variavel "+variavel+" com o id "+newId);
+			JOptionPane.showMessageDialog(null, "Foi inserida a variável "+variavel+" com o id "+newId+" na base de dados.");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void deleteVariavel(int id) {
+	public static void deleteVariavel(int id) {
 		Statement stmt;
 		try {
 
@@ -115,6 +116,8 @@ public class ConnectionsAdmin {
 			preparedStatement.executeUpdate();
 
 			System.out.println("Foi removida a variável com o id "+id);
+			JOptionPane.showMessageDialog(null,"Foi removida a variável com o id "+id);
+
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -147,7 +150,7 @@ public class ConnectionsAdmin {
 		}
 	}
 
-	public void deleteInvestigador(int id) { 
+	public static void deleteInvestigador(int id) { 
 		Statement stmt;
 		try {
 
@@ -156,13 +159,14 @@ public class ConnectionsAdmin {
 			preparedStatement.executeUpdate();
 
 			System.out.println("Foi removida o investigador com o id "+id);
+			JOptionPane.showMessageDialog(null,"Foi removida o investigador com o id "+id);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void deleteAdministrador(int id) { 
+	public static void deleteAdministrador(int id) { 
 		Statement stmt;
 		try {
 
@@ -171,6 +175,7 @@ public class ConnectionsAdmin {
 			preparedStatement.executeUpdate();
 
 			System.out.println("Foi removida o administrador com o id "+id);
+			JOptionPane.showMessageDialog(null,"Foi removida o administrador com o id "+id);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -209,6 +214,10 @@ public class ConnectionsAdmin {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public Connection getConnectionAdmin() {
+		return this.conn;
 	}
 
 

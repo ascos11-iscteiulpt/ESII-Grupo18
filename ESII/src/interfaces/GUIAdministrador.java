@@ -1,4 +1,4 @@
-package administrador;
+package interfaces;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -18,6 +18,7 @@ import javax.swing.BoxLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -137,7 +138,12 @@ public class GUIAdministrador extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
+					try {
+						new GUIVariaveis(new ConnectionsAdmin());
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
 				
 			}
 		});
@@ -146,7 +152,11 @@ public class GUIAdministrador extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				try {
+					new GUIUtilizadores(new ConnectionsAdmin());
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 				
 			}
 		});
