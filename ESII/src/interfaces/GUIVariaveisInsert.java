@@ -64,6 +64,7 @@ public class GUIVariaveisInsert extends JFrame{
 					connectAdmin.createVariavel(variavel.getText());
 					gui.updateTable();
 					gui.repaintTable();
+					closeGUI();
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -75,5 +76,10 @@ public class GUIVariaveisInsert extends JFrame{
 		pack();
 		
 	}
+	
+	public void closeGUI() {
+		this.dispose();
+	}
+
 
 }
