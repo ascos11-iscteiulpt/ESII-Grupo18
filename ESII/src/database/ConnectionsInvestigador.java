@@ -1,4 +1,4 @@
-package investigador;
+package database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,27 +13,34 @@ import com.mongodb.DB;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
 public class ConnectionsInvestigador {
-	
+
 	static Connection conn = null;
-	
-	public static void main(String[] args) {
-		ConnectionsInvestigador c = new ConnectionsInvestigador();
-		c.login("ok", "ok");
-	}
-	
+	public int idInvestigador;
+
+
 	public boolean login(String username, String password) {
 		try {
 
 			Connection connAux = getMysqlDataSource("root", "chocolate").getConnection();
 
-			PreparedStatement preparedStatement = connAux.prepareStatement("SELECT * FROM investigador WHERE NomeInvestigador=? AND Pass=?");
-			preparedStatement.setString(1, username);
+			PreparedStatement preparedStatement = connAux.prepareStatement("SELECT * FROM investigador WHERE Email=? AND Password=?");
+			preparedStatement.setString(1, username+"@gmail.com");
 			preparedStatement.setString(2, password);
 			preparedStatement.execute();
 			ResultSet rs1 = preparedStatement.getResultSet();
 
 			if (rs1.next()) {
-				System.out.println("Login done!");
+
+				PreparedStatement preparedStatement2 = connAux.prepareStatement("SELECT IDInvestigador FROM investigador WHERE Email=? AND Password=?");
+				preparedStatement.setString(1, username+"@gmail.com");
+				preparedStatement.setString(2, password);
+				preparedStatement.execute();
+				ResultSet rs2 = preparedStatement.getResultSet();
+				if(rs2.next()) {
+					setIdInvestigador(rs2.getInt("IDInvestigador"));
+					System.out.println("Login done!");
+					System.out.println("ID: "+idInvestigador);
+				}
 
 				conn = getMysqlDataSource(username, password).getConnection();
 				Statement stmt = conn.createStatement();
@@ -43,9 +50,9 @@ public class ConnectionsInvestigador {
 				if (rs.next()) {
 					System.out.println("Database Version : " + rs.getString(1));
 				}
-				 return true;
+				return true;
 				//Aqui tem que enviar um sinal à GUI para mudar de frame
-				
+
 			} else {
 				JOptionPane.showMessageDialog(null, "Dados de login incorretos.", "Erro", JOptionPane.ERROR_MESSAGE);
 				return false;
@@ -55,7 +62,7 @@ public class ConnectionsInvestigador {
 		};
 		return false;
 	}
-	
+
 	public void selectCultura() {
 		Statement stmt;
 		try {
@@ -69,8 +76,8 @@ public class ConnectionsInvestigador {
 			//			e.printStackTrace();
 		}
 	}
-	
-	public void createCultura(String cultura) {
+
+	public void createCultura(String cultura, String descricao) {
 		Statement stmt;
 		try {
 
@@ -83,9 +90,11 @@ public class ConnectionsInvestigador {
 				System.out.println("lastID: "+lastId);
 			}
 			int newId = lastId+1;
-			PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO dba.`cultura` (IDCultura, NomeCultura) "+"VALUES (?, ?)");
+			PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO dba.`cultura` (IDCultura, NomeCultura, DescricaoCultura, IDInvestigador) "+"VALUES (?, ?, ?, ?)");
 			preparedStatement.setInt(1, newId);
 			preparedStatement.setString(2, cultura);
+			preparedStatement.setString(3, descricao);
+			preparedStatement.setInt(4, idInvestigador);
 			preparedStatement.executeUpdate();
 
 			System.out.println("Foi criada a variavel "+cultura+" com o id "+newId);
@@ -96,26 +105,33 @@ public class ConnectionsInvestigador {
 		}
 	}
 	
-	public static void deleteCultura(int id) {
+	public void editCultura(String descricao, int selectedId) {
 		Statement stmt;
 		try {
-
-			PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM cultura WHERE IDCultura=?");
-			preparedStatement.setInt(1, id);
+			PreparedStatement preparedStatement = conn.prepareStatement("UPDATE cultura SET DescricaoCultura = ? WHERE IDCultura = ?");
+			preparedStatement.setString(1, descricao);
+			preparedStatement.setInt(2, selectedId);
 			preparedStatement.executeUpdate();
 
-			System.out.println("Foi removida a cultura com o id "+id);
-			JOptionPane.showMessageDialog(null,"Foi removida a cultura com o id "+id);
-
-
+			System.out.println("Foi atualizada a descrição da cultura com o id "+selectedId+ " para "+descricao);
+			JOptionPane.showMessageDialog(null,"Foi atualizada a descrição da cultura com o id "+selectedId+ " para "+descricao);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public Connection getConnectionInvestigador() {
 		return this.conn;
 	}
+	
+	public int getIdInvestigador() {
+		return idInvestigador;
+	}
+
+	public void setIdInvestigador(int idInvestigador) {
+		this.idInvestigador = idInvestigador;
+	}
+
 
 
 	public DataSource getMysqlDataSource(String username, String password) {

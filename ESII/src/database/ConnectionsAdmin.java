@@ -116,7 +116,7 @@ public class ConnectionsAdmin {
 			preparedStatement.executeUpdate();
 
 			System.out.println("Foi removida a variável com o id "+id);
-			JOptionPane.showMessageDialog(null,"Foi removida a variável com o id "+id);
+			JOptionPane.showMessageDialog(null,"Foi removida a variável com o id "+id+".");
 
 
 		} catch (SQLException e) {
@@ -159,7 +159,7 @@ public class ConnectionsAdmin {
 			preparedStatement.executeUpdate();
 
 			System.out.println("Foi removida o investigador com o id "+id);
-			JOptionPane.showMessageDialog(null,"Foi removida o investigador com o id "+id);
+			JOptionPane.showMessageDialog(null,"Foi removida o investigador com o id "+id+".");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -175,7 +175,7 @@ public class ConnectionsAdmin {
 			preparedStatement.executeUpdate();
 
 			System.out.println("Foi removida o administrador com o id "+id);
-			JOptionPane.showMessageDialog(null,"Foi removida o administrador com o id "+id);
+			JOptionPane.showMessageDialog(null,"Foi removida o administrador com o id "+id+".");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -191,7 +191,8 @@ public class ConnectionsAdmin {
 			cs.setString(2, pass);
 			cs.executeUpdate();
 
-			System.out.println("Foi criado o administrador com o nome "+username);
+			System.out.println("Foi criado o administrador com o nome "+username+".");
+			JOptionPane.showMessageDialog(null,"Foi criado o administrador com o nome "+username+".");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -209,7 +210,8 @@ public class ConnectionsAdmin {
 			cs.setString(4, "investigador");
 			cs.executeUpdate();
 
-			System.out.println("Foi criado o investigador com o nome "+nomeInvestigador);
+			System.out.println("Foi criado o investigador com o nome "+nomeInvestigador+".");
+			JOptionPane.showMessageDialog(null,"Foi criado o investigador com o nome "+nomeInvestigador+".");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -225,7 +227,7 @@ public class ConnectionsAdmin {
 			preparedStatement.executeUpdate();
 
 			System.out.println("Foi atualizado o nome do administrador com o id "+selectedId+ " para "+name);
-			JOptionPane.showMessageDialog(null,"Foi atualizado o nome do administrador com o id "+selectedId+ " para "+name);
+			JOptionPane.showMessageDialog(null,"Foi atualizado o nome do administrador com o id "+selectedId+ " para "+name+".");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -240,7 +242,7 @@ public class ConnectionsAdmin {
 			preparedStatement.executeUpdate();
 
 			System.out.println("Foi atualizado o nome do investigador com o id "+selectedId+ " para "+name);
-			JOptionPane.showMessageDialog(null,"Foi atualizado o nome do investigador com o id "+selectedId+ " para "+name);
+			JOptionPane.showMessageDialog(null,"Foi atualizado o nome do investigador com o id "+selectedId+ " para "+name+".");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

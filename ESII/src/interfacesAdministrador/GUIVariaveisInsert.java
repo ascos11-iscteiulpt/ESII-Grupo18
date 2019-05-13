@@ -3,6 +3,7 @@ package interfacesAdministrador;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -15,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 
 import database.ConnectionsAdmin;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class GUIVariaveisInsert extends JFrame{
@@ -38,11 +40,15 @@ public class GUIVariaveisInsert extends JFrame{
 		setContentPane(contentPane);
 		contentPane.setAlignmentX(CENTER_ALIGNMENT);
 		getContentPane().setLayout(new GridLayout(2, 1, 0, 0));
+		getContentPane().setBackground(Color.WHITE);
 
 		JPanel campos = new JPanel();
+		campos.setBackground(Color.WHITE);
 		contentPane.add(campos);
 
-		JLabel nomeVariavel = new JLabel("Nome da variável a inserir: ");
+		ImageIcon varImg = new ImageIcon("./images/science.png");
+		JLabel nomeVariavel = new JLabel();
+		nomeVariavel.setIcon(varImg);
 		campos.add(nomeVariavel);
 
 		variavel = new JTextField();
@@ -50,6 +56,7 @@ public class GUIVariaveisInsert extends JFrame{
 		variavel.setColumns(10);
 
 		JPanel botoes = new JPanel();
+		botoes.setBackground(Color.WHITE);
 		contentPane.add(botoes);
 
 		JButton insertV = new JButton("Inserir");

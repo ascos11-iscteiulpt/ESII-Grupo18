@@ -40,14 +40,14 @@ public class GUIGerirInvestigadores {
 	}
 	
 	public void startGui() {
-		frame = new JFrame("Gestão de utilizadores");
+		frame = new JFrame("Gestão de investigadores");
 		frame.setLayout(new GridLayout(2, 1));
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setBounds(200, 200, 800, 700);
 		frame.setPreferredSize(new Dimension(800,500));
 		frame.setLayout(new BorderLayout());
 
-		insertButton = new JButton("Criar investigador");
+		insertButton = new JButton("Inserir novo investigador");
 		
 		insertButton.addActionListener(new ActionListener() {
 			
