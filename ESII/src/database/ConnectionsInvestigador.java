@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 
 import javax.sql.DataSource;
 import javax.swing.JOptionPane;
@@ -114,7 +115,54 @@ public class ConnectionsInvestigador {
 			preparedStatement.executeUpdate();
 
 			System.out.println("Foi atualizada a descrição da cultura com o id "+selectedId+ " para "+descricao);
-			JOptionPane.showMessageDialog(null,"Foi atualizada a descrição da cultura com o id "+selectedId+ " para "+descricao);
+			JOptionPane.showMessageDialog(null,"Foi atualizada a descrição da cultura com o id "+selectedId+ " para "+descricao+".");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteMedicao(double id) {
+		Statement stmt;
+		try {
+			PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM medicoes WHERE NumMedicao = ?");
+			preparedStatement.setDouble(1, id);
+			preparedStatement.executeUpdate();
+
+			System.out.println("Foi apagada a medicao com o id "+id+ ".");
+			JOptionPane.showMessageDialog(null,"Foi apagada a medicao com o id "+id+ ".");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void createMedicao(int idVar, int idCultura, double valor) {
+		Statement stmt;
+		try {
+
+			int lastId = 0;
+			Statement statement = conn.createStatement();
+			statement.execute("SELECT MAX(NumMedicao) FROM dba.`medicoes`");    
+			ResultSet result = statement.getResultSet();
+			if (result.next()) {
+				lastId = result.getInt(1);
+				System.out.println("lastID: "+lastId);
+			}
+			Statement aux = conn.createStatement();
+			aux.execute("SET foreign_key_checks = 0");
+			
+			int newId = lastId+1;
+			PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO `dba`.`medicoes` (`IDVariavel`, `IDCultura`, `NumMedicao`, `DataHoraMedicao`, `ValorMedicao`) VALUES (?, ?, ?, ?, ?)");
+			preparedStatement.setInt(1, idVar);
+			preparedStatement.setInt(2, idCultura);
+			preparedStatement.setInt(3, newId);
+			Timestamp t = new Timestamp(System.currentTimeMillis());
+			preparedStatement.setTimestamp(4, t);
+			preparedStatement.setDouble(5, valor);
+			preparedStatement.executeUpdate();
+
+			System.out.println("Foi criada a variavel com o id "+newId+" com o valor "+valor);
+			JOptionPane.showMessageDialog(null, "Foi criada a variavel com o id "+newId+" com o valor "+valor+".");
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
