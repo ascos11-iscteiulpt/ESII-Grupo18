@@ -76,7 +76,7 @@ public class GUIVariaveis{
 		frame.remove(scroll);
 		frame.remove(insertButton);
 		dtm = new DefaultTableModel();
-		dtm.setColumnIdentifiers(new String[]{"ID", "Nome", "Operacao"});
+		dtm.setColumnIdentifiers(new String[]{"ID", "Nome", "Eliminar"});
 
 		PreparedStatement preparedStatement = connectAdmin.getConnectionAdmin().prepareStatement("SELECT * FROM variaveis");
 		preparedStatement.execute();
