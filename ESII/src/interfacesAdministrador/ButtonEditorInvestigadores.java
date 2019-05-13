@@ -1,4 +1,4 @@
-package interfaces;
+package interfacesAdministrador;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -13,18 +13,18 @@ import javax.swing.JTable;
 
 import database.ConnectionsAdmin;
 
-public class ButtonEditorUtilizadores extends DefaultCellEditor {
+public class ButtonEditorInvestigadores extends DefaultCellEditor {
 
     protected JButton button;
     private String label;
     private boolean isPushed;
     private ImageIcon pic3 = new ImageIcon("./images/trash.png");
-	private GUIUtilizadores guiU;
+	private GUIGerirInvestigadores guiInv;
 
     
-    public ButtonEditorUtilizadores(JCheckBox checkBox, GUIUtilizadores gui) {
+    public ButtonEditorInvestigadores(JCheckBox checkBox, GUIGerirInvestigadores gui) {
         super(checkBox);
-        this.guiU = gui;
+        this.guiInv = gui;
         
         button = new JButton(pic3);
         button.setIcon(pic3);
@@ -64,12 +64,13 @@ public class ButtonEditorUtilizadores extends DefaultCellEditor {
         if (isPushed) {
             
 			try {
-				
-				System.out.println("No botão tem: "+guiU.getSelectedID());
-//				ConnectionsAdmin.deleteVariavel(gui.getSelectedID());
-				ConnectionsAdmin.deleteInvestigador(10);
-				guiU.updateTable();
-				guiU.repaintTable();
+				final int row = guiInv.getTable().getSelectedRow();
+				final int valueInCell = (Integer)guiInv.getTable().getValueAt(row, 0);
+				guiInv.setSelectedID(valueInCell);
+				System.out.println("No botão tem: "+guiInv.getSelectedID());
+				ConnectionsAdmin.deleteInvestigador(guiInv.getSelectedID());
+				guiInv.updateTable();
+				guiInv.repaintTable();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

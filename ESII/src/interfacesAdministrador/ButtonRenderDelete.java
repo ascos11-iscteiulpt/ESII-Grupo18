@@ -1,4 +1,4 @@
-package interfaces;
+package interfacesAdministrador;
 
 import java.awt.Component;
 
@@ -20,7 +20,7 @@ class ButtonRenderer extends JButton implements TableCellRenderer {
 		if (isSelected) {
 //			setForeground(table.getSelectionForeground());
 //			setBackground(table.getSelectionBackground());
-			ImageIcon pic3 = new ImageIcon("./images/trash-2.png");
+			ImageIcon pic3 = new ImageIcon("./images/trash.png");
 			setIcon(pic3);
 			setContentAreaFilled(false);
 			setBorderPainted(false);

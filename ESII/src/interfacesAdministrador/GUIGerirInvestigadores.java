@@ -1,4 +1,4 @@
-package interfaces;
+package interfacesAdministrador;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -21,17 +21,19 @@ import javax.swing.table.DefaultTableModel;
 
 import database.ConnectionsAdmin;
 
-public class GUIUtilizadores {
+public class GUIGerirInvestigadores {
 	
-	private ConnectionsAdmin connectAdmin;
+	public ConnectionsAdmin connectAdmin;
 	private JFrame frame;
 	private JButton insertButton;
 	private JScrollPane scroll;
 	private JTable table;
 	private DefaultTableModel dtm;
 	private int selectedID;
-	
-	public GUIUtilizadores(ConnectionsAdmin connect) throws SQLException {
+	private String selectedName;
+
+
+	public GUIGerirInvestigadores(ConnectionsAdmin connect) throws SQLException {
 		this.connectAdmin = connect;
 		startGui();
 		updateTable();
@@ -45,13 +47,13 @@ public class GUIUtilizadores {
 		frame.setPreferredSize(new Dimension(800,500));
 		frame.setLayout(new BorderLayout());
 
-		insertButton = new JButton("Inserir nova variável");
+		insertButton = new JButton("Criar investigador");
 		
 		insertButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				new GUIInvestigadorInsert(connectAdmin, GUIGerirInvestigadores.this);
 			}
 		});
 	
@@ -66,7 +68,7 @@ public class GUIUtilizadores {
 		frame.remove(scroll);
 		frame.remove(insertButton);
 		dtm = new DefaultTableModel();
-		dtm.setColumnIdentifiers(new String[]{"ID", "Email", "Nome", "Categoria", "Operacao"});
+		dtm.setColumnIdentifiers(new String[]{"ID", "Email", "Nome", "Categoria", "Eliminar", "Editar"});
 
 		PreparedStatement preparedStatement = connectAdmin.getConnectionAdmin().prepareStatement("SELECT * FROM investigador");
 		preparedStatement.execute();
@@ -86,8 +88,12 @@ public class GUIUtilizadores {
 		dtm.fireTableDataChanged();    
 
 		table = new JTable(dtm);
-		table.getColumn("Operacao").setCellRenderer(new ButtonRenderer());
-		table.getColumn("Operacao").setCellEditor(new ButtonEditorUtilizadores(new JCheckBox(), this));
+		table.getColumn("Eliminar").setCellRenderer(new ButtonRenderer());
+		table.getColumn("Eliminar").setCellEditor(new ButtonEditorInvestigadores(new JCheckBox(), this));
+		
+		table.getColumn("Editar").setCellRenderer(new ButtonRenderer2());
+		table.getColumn("Editar").setCellEditor(new ButtonEditorInvestigadorUpdate(new JCheckBox(), this));
+		
 
 		scroll = new JScrollPane(table);
 
@@ -133,6 +139,14 @@ public class GUIUtilizadores {
 	
 	public void setSelectedID(int selectedID) {
 		this.selectedID = selectedID;
+	}
+	
+	public String getSelectedName() {
+		return selectedName;
+	}
+
+	public void setSelectedName(String selectedName) {
+		this.selectedName = selectedName;
 	}
 	
 

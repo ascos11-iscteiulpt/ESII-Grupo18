@@ -1,4 +1,4 @@
-package interfaces;
+package interfacesAdministrador;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -15,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,7 +36,7 @@ public class GUIAdministrador extends JFrame {
 	private JPanel contentPane;
 	private JPanel contentPaneAdmin;
 	private JTextField usernameField;
-	private JTextField passwordField;
+	private JPasswordField passwordField;
 	private ConnectionsAdmin connectAdmin;
 
 	/**
@@ -43,7 +46,7 @@ public class GUIAdministrador extends JFrame {
 		this.connectAdmin = connect;
 		openLoginGUI();
 	}
-	
+
 	public void openLoginGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -52,116 +55,149 @@ public class GUIAdministrador extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setAlignmentX(CENTER_ALIGNMENT);
 		contentPane.setLayout(new GridLayout(0, 1, 0, 0));
-		
+
 		JPanel panel = new JPanel();
 		contentPane.add(panel);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		
+
 		JPanel usernamePanel = new JPanel();
 		panel.add(usernamePanel);
-		
+
 		JLabel usernameLabel = new JLabel("Username");
 		usernameLabel.setFont(new Font(usernameLabel.getFont().getName(), Font.PLAIN, usernameLabel.getFont().getSize()+2));	
 		usernamePanel.add(usernameLabel);
-		
+
 		usernameField = new JTextField();
 		usernameField.setFont(new Font(usernameField.getFont().getName(), Font.PLAIN, usernameField.getFont().getSize()+2));	
 		usernamePanel.add(usernameField);
 		usernameField.setColumns(10);
-		
+
 		JPanel passwordPanel = new JPanel();
 		panel.add(passwordPanel);
-		
+
 		JLabel passwordLabel = new JLabel("Password");
 		passwordLabel.setFont(new Font(passwordLabel.getFont().getName(), Font.PLAIN, passwordLabel.getFont().getSize()+2));	
 		passwordPanel.add(passwordLabel);
-		
-		passwordField = new JTextField();
+
+		passwordField = new JPasswordField();
+		passwordField.setEchoChar('*');
 		passwordField.setFont(new Font(passwordField.getFont().getName(), Font.PLAIN, passwordField.getFont().getSize()+2));	
 		passwordPanel.add(passwordField);
 		passwordField.setColumns(10);
-		
+
 		JButton loginButton = new JButton("Login");
 		loginButton.setFont(new Font(loginButton.getFont().getName(), Font.PLAIN, loginButton.getFont().getSize()+2));	
 		panel.add(loginButton);
-		
+
 		loginButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Boolean connected = connectAdmin.login(usernameField.getText(), passwordField.getText());
 				if(connected) {
-					//chamar novo método :c
 					clearGUI();
 					openAdminGUI();
 				}
 			}
 		});	
 	}
-	
+
 	public void clearGUI() {
 		this.getContentPane().removeAll();
 		repaint();
 		revalidate();
 	}
-	
+
 	public void openAdminGUI() {
-		
+
+		setSize(800, 500);
 		contentPaneAdmin = new JPanel();
 		contentPaneAdmin.setBorder(new EmptyBorder(50, 50, 50, 50));
 		setContentPane(contentPaneAdmin);
-//		this.add(contentPaneAdmin);
+		//		this.add(contentPaneAdmin);
 		contentPaneAdmin.setAlignmentX(CENTER_ALIGNMENT);
 		contentPaneAdmin.setLayout(new BorderLayout());
-		
-		JLabel title = new JLabel("Interface do administrador");
+
+		ImageIcon img = new ImageIcon("./images/admin.png");
+		JLabel title = new JLabel();
+		title.setIcon(img);
 		title.setHorizontalAlignment(JLabel.CENTER);
 		title.setFont(new Font(title.getFont().getName(), Font.PLAIN, title.getFont().getSize()+4));
 		contentPaneAdmin.add(title, BorderLayout.NORTH);
-		
+
 		JPanel centerPanel = new JPanel();
-		centerPanel.setLayout(new GridBagLayout());
-		
+		//		centerPanel.setLayout(new GridBagLayout());
+		centerPanel.setLayout(new GridLayout(3, 0));
+
+		JPanel aux = new JPanel();
 		JButton variaveisButton = new JButton("Gerir variáveis");
 		variaveisButton.setFont(new Font(variaveisButton.getFont().getName(), Font.PLAIN, variaveisButton.getFont().getSize()+2));
-		centerPanel.add(variaveisButton);
-		
-		JButton utilizadoresButton = new JButton("Gerir utilizadores");
-		utilizadoresButton.setFont(new Font(utilizadoresButton.getFont().getName(), Font.PLAIN, utilizadoresButton.getFont().getSize()+2));	
-		centerPanel.add(utilizadoresButton);
-		
+		variaveisButton.setPreferredSize(new Dimension(400, 50));
+		aux.add(variaveisButton);
+		centerPanel.add(aux);
+//		centerPanel.add(variaveisButton);
+
+		JPanel aux2 = new JPanel();
+		JButton investigadoresButton = new JButton("Gerir investigadores");
+		investigadoresButton.setFont(new Font(investigadoresButton.getFont().getName(), Font.PLAIN, investigadoresButton.getFont().getSize()+2));	
+		investigadoresButton.setPreferredSize(new Dimension(400, 50));
+		aux2.add(investigadoresButton);
+		centerPanel.add(aux2);
+//		centerPanel.add(investigadoresButton);
+
+		JPanel aux3 = new JPanel();
+		JButton administradoresButton = new JButton("Gerir administradores");
+		administradoresButton.setFont(new Font(administradoresButton.getFont().getName(), Font.PLAIN, administradoresButton.getFont().getSize()+2));	
+		administradoresButton.setPreferredSize(new Dimension(400, 50));
+		aux3.add(administradoresButton);
+		centerPanel.add(aux3);
+//		centerPanel.add(administradoresButton);
+
 		contentPaneAdmin.add(centerPanel, BorderLayout.CENTER);
 		repaint();
 		revalidate();
-		
+
 		variaveisButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-					try {
-						new GUIVariaveis(new ConnectionsAdmin());
-					} catch (SQLException e1) {
-						e1.printStackTrace();
-					}
-				
-			}
-		});
-		
-		utilizadoresButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
+
 				try {
-					new GUIUtilizadores(new ConnectionsAdmin());
+					new GUIVariaveis(new ConnectionsAdmin());
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-				
+
 			}
 		});
-		
-		
+
+		investigadoresButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					new GUIGerirInvestigadores(new ConnectionsAdmin());
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+
+			}
+		});
+
+		administradoresButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					new GUIGerirAdministradores(new ConnectionsAdmin());
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+
+			}
+		});
+
+
 	}
 
 }

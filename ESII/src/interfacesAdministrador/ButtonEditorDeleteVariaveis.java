@@ -1,4 +1,4 @@
-package interfaces;
+package interfacesAdministrador;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -17,16 +17,16 @@ import javax.swing.JTable;
 
 import database.ConnectionsAdmin;
 
-class ButtonEditor extends DefaultCellEditor {
+class ButtonEditorDeleteVariaveis extends DefaultCellEditor {
 
     private JButton button;
     private String label;
     private boolean isPushed;
     private GUIVariaveis guiVar;
     private ImageIcon pic3 = new ImageIcon("./images/trash.png");
-	private GUIUtilizadores guiU;
+	private GUIGerirInvestigadores guiU;
 
-    public ButtonEditor(JCheckBox checkBox, GUIVariaveis gui) {
+    public ButtonEditorDeleteVariaveis(JCheckBox checkBox, GUIVariaveis gui) {
         super(checkBox);
         this.guiVar = gui;
         
@@ -41,7 +41,7 @@ class ButtonEditor extends DefaultCellEditor {
         });
     }
     
-    public ButtonEditor(JCheckBox checkBox, GUIUtilizadores gui) {
+    public ButtonEditorDeleteVariaveis(JCheckBox checkBox, GUIGerirInvestigadores gui) {
         super(checkBox);
         this.guiU = gui;
         

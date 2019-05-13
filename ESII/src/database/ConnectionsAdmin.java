@@ -216,6 +216,37 @@ public class ConnectionsAdmin {
 		}
 	}
 	
+	public void editAdministrador(String name, int selectedId) {
+		Statement stmt;
+		try {
+			PreparedStatement preparedStatement = conn.prepareStatement("UPDATE administrador SET NomeAdministrador = ? WHERE IDAdministrador = ?");
+			preparedStatement.setString(1, name);
+			preparedStatement.setInt(2, selectedId);
+			preparedStatement.executeUpdate();
+
+			System.out.println("Foi atualizado o nome do administrador com o id "+selectedId+ " para "+name);
+			JOptionPane.showMessageDialog(null,"Foi atualizado o nome do administrador com o id "+selectedId+ " para "+name);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void editInvestigador(String name, int selectedId) {
+		Statement stmt;
+		try {
+			PreparedStatement preparedStatement = conn.prepareStatement("UPDATE investigador SET NomeInvestigador = ? WHERE IDInvestigador = ?");
+			preparedStatement.setString(1, name);
+			preparedStatement.setInt(2, selectedId);
+			preparedStatement.executeUpdate();
+
+			System.out.println("Foi atualizado o nome do investigador com o id "+selectedId+ " para "+name);
+			JOptionPane.showMessageDialog(null,"Foi atualizado o nome do investigador com o id "+selectedId+ " para "+name);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	public Connection getConnectionAdmin() {
 		return this.conn;
 	}

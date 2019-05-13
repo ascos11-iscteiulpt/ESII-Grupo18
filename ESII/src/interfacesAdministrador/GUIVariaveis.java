@@ -1,4 +1,4 @@
-package interfaces;
+package interfacesAdministrador;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -97,8 +97,8 @@ public class GUIVariaveis{
 		dtm.fireTableDataChanged();    
 
 		table = new JTable(dtm);
-		table.getColumn("Operacao").setCellRenderer(new ButtonRenderer());
-		table.getColumn("Operacao").setCellEditor(new ButtonEditor(new JCheckBox(), this));
+		table.getColumn("Eliminar").setCellRenderer(new ButtonRenderer());
+		table.getColumn("Eliminar").setCellEditor(new ButtonEditorDeleteVariaveis(new JCheckBox(), this));
 
 
 		scroll = new JScrollPane(table);

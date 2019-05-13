@@ -3,7 +3,7 @@ package administrador;
 import java.awt.EventQueue;
 
 import database.ConnectionsAdmin;
-import interfaces.GUIAdministrador;
+import interfacesAdministrador.GUIAdministrador;
 
 public class MainAdministrador {
 

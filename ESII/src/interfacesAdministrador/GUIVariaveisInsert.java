@@ -1,4 +1,4 @@
-package interfaces;
+package interfacesAdministrador;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
