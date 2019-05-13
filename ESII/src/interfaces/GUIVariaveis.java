@@ -27,6 +27,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
@@ -48,7 +49,7 @@ public class GUIVariaveis{
 		startGui();
 		updateTable();
 	}
-	
+
 	public void startGui() {
 		frame = new JFrame("Gestão de variáveis");
 		frame.setLayout(new GridLayout(2, 1));
@@ -58,15 +59,15 @@ public class GUIVariaveis{
 		frame.setLayout(new BorderLayout());
 
 		insertButton = new JButton("Inserir nova variável");
-		
+
 		insertButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new GUIVariaveisInsert(connectAdmin, GUIVariaveis.this);
 			}
 		});
-	
+
 		scroll = new JScrollPane(table);
 		frame.add(scroll, BorderLayout.CENTER);
 		frame.add(insertButton, BorderLayout.SOUTH);
@@ -99,27 +100,31 @@ public class GUIVariaveis{
 		table.getColumn("Operacao").setCellRenderer(new ButtonRenderer());
 		table.getColumn("Operacao").setCellEditor(new ButtonEditor(new JCheckBox(), this));
 
+
 		scroll = new JScrollPane(table);
 
 		table.setPreferredScrollableViewportSize(table.getPreferredSize());
 		table.getColumnModel().getColumn(0).setPreferredWidth(100);//so buttons will fit and not be shown butto..
 
 
+
+
 		table.addMouseListener(new MouseAdapter() {
-			  @Override
-			    public void mouseClicked(final MouseEvent e) {
-			        if (e.getClickCount() == 1) {
-			            final JTable jTable= (JTable)e.getSource();
-			            final int row = table.getSelectedRow();
-			            final int column = table.getSelectedColumn();
-			            final int valueInCell = (Integer)table.getValueAt(row, 0);
-			            setSelectedID(valueInCell);
-			            System.out.println("Selecionou: "+valueInCell);
-			        }
-			    }
+			@Override
+			public void mouseClicked(final MouseEvent e) {
+				if (e.getClickCount() == 1) {
+
+					final JTable jTable= (JTable)e.getSource();
+					final int row = table.getSelectedRow();
+					final int column = table.getSelectedColumn();
+					final int valueInCell = (Integer)table.getValueAt(row, 0);
+					setSelectedID(valueInCell);
+					System.out.println("Selecionou: "+valueInCell);
+				}
+			}
 		});
-		
-		
+
+
 		frame.add(scroll, BorderLayout.CENTER);
 		frame.add(insertButton, BorderLayout.SOUTH);
 		frame.repaint();
@@ -133,7 +138,7 @@ public class GUIVariaveis{
 	public void repaintTable() {
 		this.table.repaint();
 	}
-	
+
 	public JTable getTable() {
 		return this.table;
 	}
@@ -141,7 +146,7 @@ public class GUIVariaveis{
 	public int getSelectedID() {
 		return selectedID;
 	}
-	
+
 	public void setSelectedID(int selectedID) {
 		this.selectedID = selectedID;
 	}

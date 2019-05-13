@@ -19,7 +19,7 @@ import database.ConnectionsAdmin;
 
 class ButtonEditor extends DefaultCellEditor {
 
-    protected JButton button;
+    private JButton button;
     private String label;
     private boolean isPushed;
     private GUIVariaveis guiVar;
@@ -54,9 +54,8 @@ class ButtonEditor extends DefaultCellEditor {
                 fireEditingStopped();
             }
         });
+        
     }
-    
- 
     
     public JButton getButton() {
     	return button;
@@ -84,9 +83,11 @@ class ButtonEditor extends DefaultCellEditor {
             
 			try {
 				
+				final int row = guiVar.getTable().getSelectedRow();
+				final int valueInCell = (Integer)guiVar.getTable().getValueAt(row, 0);
+				guiVar.setSelectedID(valueInCell);
 				System.out.println("No botão tem: "+guiVar.getSelectedID());
-//				ConnectionsAdmin.deleteVariavel(gui.getSelectedID());
-				ConnectionsAdmin.deleteVariavel(18);
+				ConnectionsAdmin.deleteVariavel(guiVar.getSelectedID());
 				guiVar.updateTable();
 				guiVar.repaintTable();
 			} catch (SQLException e) {
@@ -96,7 +97,9 @@ class ButtonEditor extends DefaultCellEditor {
         isPushed = false;
         return label;
     }
-
+    
+    
+    
     @Override
     public boolean stopCellEditing() {
         isPushed = false;
