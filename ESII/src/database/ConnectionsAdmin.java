@@ -22,7 +22,7 @@ public class ConnectionsAdmin {
 	//		c.login("root", "chocolate");
 	//		c.selectVariaveis();
 	//		c.createVariavel("VariavelTeste");
-	//		c.deleteVariavel(12);
+//			c.deleteVariavel(12);
 	//		c.selectInvestigadores();
 	//		c.selectAdministradores();
 	//		c.deleteAdministrador(2);
