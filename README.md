@@ -17,3 +17,10 @@ Para executar efetivamente este *software* é necessário que estejam presentes 
 - Base de Dados de transição MongoDB
 
 Estas componentes estão preparadas na máquina virtual fornecida na entrega final do projeto.
+
+## Elementos do grupo
+André Carvalho 72783
+Bruno Colaço 73353
+Dinis Ferreira 74455
+Maria Dinis 77667
+Mariana Silva 78014
